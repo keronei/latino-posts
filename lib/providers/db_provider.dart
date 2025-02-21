@@ -35,7 +35,7 @@ class DBProvider {
 
   createNews(NewsPost newsPost) async {
     final db = await database;
-    final res = await db?.insert('NewsPost', newsPost.toJson());
+    final res = await db?.insert('NewsPost', newsPost.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
 
     return res;
   }
