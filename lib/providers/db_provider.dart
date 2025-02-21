@@ -20,7 +20,7 @@ class DBProvider {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, 'employee_manager.db');
+    final path = join(documentsDirectory.path, 'news_post.db');
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
@@ -28,13 +28,12 @@ class DBProvider {
               'id INTEGER PRIMARY KEY,'
               'userId INTEGER,'
               'title TEXT,'
-              'body TEXT,'
-              ')');
+              'body TEXT)'
+              );
         });
   }
 
   createNews(NewsPost newsPost) async {
-    await deleteAllNews();
     final db = await database;
     final res = await db?.insert('NewsPost', newsPost.toJson());
 
