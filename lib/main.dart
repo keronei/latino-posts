@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/utils/constants.dart';
 import 'package:latin_news/views/posts_list.dart';
 import 'package:latin_news/views/post_details.dart';
