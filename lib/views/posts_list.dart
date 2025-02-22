@@ -2,7 +2,6 @@ import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:latin_news/utils/constants.dart';
-import 'package:latin_news/views/post_details.dart';
 import '../utils/shared_functions.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,7 +90,7 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _isFirstLoadRunning = true;
     });
-    await DBProvider.db.deleteAllNews();
+    await DBProvider.db.deleteAllPosts();
     setState(() {
       _isFirstLoadRunning = false;
     });

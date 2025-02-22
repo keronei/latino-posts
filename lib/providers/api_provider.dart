@@ -22,9 +22,12 @@ class NewsPostApiProvider {
 
       posts = json.decode(response.body);
 
-      // Alternatively use status==200 to determine if reachable
-
       parsedPosts = posts.map((post) => NewsPost.fromJson(post)).toList();
+
+      if (posts.isNotEmpty && nextPage == 1) {
+        // this is refresh, only clear when you have data.
+        await DBProvider.db.deleteAllPosts();
+      }
 
       for (var poster in parsedPosts) {
         DBProvider.db.createNews(poster);
@@ -42,5 +45,4 @@ class NewsPostApiProvider {
       );
     }
   }
-
 }

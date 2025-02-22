@@ -40,7 +40,7 @@ class DBProvider {
     return res;
   }
 
-  Future<int> deleteAllNews() async {
+  Future<int> deleteAllPosts() async {
     final db = await database;
     final res = await db?.rawDelete('DELETE FROM NewsPost');
 
