@@ -8,10 +8,33 @@ void showSnackBar(BuildContext context, String message) {
     SnackBar(
       content: Text(message),
       duration: Duration(seconds: 2),
-      behavior: SnackBarBehavior.floating, // Optional: Makes it float
+      behavior: SnackBarBehavior.floating,
     ),
   );
 }
+
+Future<bool?> showConfirmationDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Confirm"),
+        content: Text("Delete all saved posts?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 String getErrorMessage(Exception error) {
   if (error is TimeoutException) {

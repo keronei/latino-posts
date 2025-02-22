@@ -37,7 +37,13 @@ class HomePageState extends State<HomePage> {
             child: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
-                await _deleteData();
+                final shouldProceed = await showConfirmationDialog(context);
+                if (shouldProceed == true) {
+                  await _deleteData();
+                  if (context.mounted) {
+                    showSnackBar(context, "Deleting all local posts");
+                  }
+                }
               },
             ),
           ),
