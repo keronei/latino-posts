@@ -20,14 +20,16 @@ To achieve pagination, use query param `_page` to select a page you want to requ
 
 An example of a request to get first page of 20 posts would be:
 
-    ``bash
+    ```bash
     
     curl -X  GET "https://jsonplaceholder.typicode.com/posts?_page=1&_limit=20"
-    ``
+
+    ```
+    
 
 The response will be a JSON as below
 
-    ``json
+    ```json
 
     {
       id: 1,
@@ -35,7 +37,8 @@ The response will be a JSON as below
       body: '...',
       userId: 1
     }
-    ``
+    ```
+    
 
 ## What can be improved
 - When a network error occurs, trigger last failed request when connection is established.
