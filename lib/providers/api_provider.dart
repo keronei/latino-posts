@@ -32,7 +32,6 @@ class NewsPostApiProvider {
         print(error);
       }
 
-      // return from caches here
       return [];
     }
   }
