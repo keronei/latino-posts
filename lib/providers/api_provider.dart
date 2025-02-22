@@ -11,7 +11,7 @@ import '../models/response_data.dart';
 import '../utils/shared_functions.dart';
 
 class NewsPostApiProvider {
-  Future<ResponseData> getNextPage(int nextPage) async {
+  Future<ResponseData> getNextPage(int nextPage, bool isRefresh) async {
     try {
       final response = await http.get(
         Uri.parse("$baseApiEndpoint?_page=$nextPage&_limit=$apiPageSize"),
@@ -24,7 +24,7 @@ class NewsPostApiProvider {
 
       parsedPosts = posts.map((post) => NewsPost.fromJson(post)).toList();
 
-      if (posts.isNotEmpty && nextPage == 1) {
+      if (posts.isNotEmpty && isRefresh) {
         // this is refresh, only clear when you have data.
         await DBProvider.db.deleteAllPosts();
       }
