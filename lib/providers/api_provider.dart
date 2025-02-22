@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -6,8 +7,11 @@ import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/response_data.dart';
+import '../utils/shared_functions.dart';
+
 class NewsPostApiProvider {
-  Future<List<NewsPost>> getNextPage(int nextPage) async {
+  Future<ResponseData> getNextPage(int nextPage) async {
     try {
       final response = await http.get(
         Uri.parse("$baseApiEndpoint?_page=$nextPage&_limit=$apiPageSize"),
@@ -26,13 +30,17 @@ class NewsPostApiProvider {
         DBProvider.db.createNews(poster);
       }
 
-      return parsedPosts;
+      return ResponseData(newsPostsCount: parsedPosts.length);
     } catch (error) {
       if (kDebugMode) {
         print(error);
       }
 
-      return [];
+      return ResponseData(
+        newsPostsCount: 0,
+        responseMessage: getErrorMessage(error as Exception),
+      );
     }
   }
+
 }
