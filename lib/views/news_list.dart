@@ -3,6 +3,7 @@ import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
+import '../utils/shared_functions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -62,14 +63,21 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-
     var apiProvider = NewsPostApiProvider();
 
-    var posts = await apiProvider.getNextPage(page);
+    var postsData = await apiProvider.getNextPage(page);
 
-    if (posts.isEmpty) {
-      // We've reached end of list
-      _hasNextPage = false;
+    if (postsData.newsPostsCount == 0) {
+      if (postsData.responseMessage == null) {
+        // We've reached end of list
+        _hasNextPage = false;
+      }
+      var responseMessage = postsData.responseMessage;
+      if (responseMessage != null) {
+        if (mounted) {
+          showSnackBar(context, responseMessage);
+        }
+      }
     } else {
       _currentPage += 1;
       _hasNextPage = true;
