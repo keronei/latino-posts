@@ -1,32 +1,25 @@
-import 'package:flutter/foundation.dart';
-import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import '../utils/shared_functions.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _currentPage = 1;
   bool _hasNextPage = false;
   bool _isFirstLoadRunning = false;
   bool _isLoadMoreRunning = false;
-  bool _isLoadMoreButtonVisible = false;
-
-  List<NewsPost> _availablePosts = [];
-  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _loadFromApi(_currentPage);
-    _scrollController = ScrollController()..addListener(_showMoreButton);
   }
 
   @override
@@ -116,7 +109,6 @@ class _HomePageState extends State<HomePage> {
               separatorBuilder:
                   (context, index) => Divider(color: Colors.black12),
               itemCount: snapshot.data.length + 1,
-              controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 if (index == snapshot.data.length && index == 0) {
@@ -130,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.only(bottom: 20),
                           child: Center(
                             child: Text(
-                              "Looks like there's no data, pull to refresh.",
+                              "Looks like there's no posts, pull to refresh.",
                               style: TextStyle(fontSize: 20.0),
                               textAlign: TextAlign.center,
                             ),
@@ -152,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CircularProgressIndicator(),
-                                  Text("Getting more news..."),
+                                  Text("Getting more posts..."),
                                 ],
                               )
                               : Padding(
@@ -188,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Text(
-                          "You've reached the end, no more news.",
+                          "You've reached the end, no more posts.",
                           style: TextStyle(fontSize: 16.0, color: Colors.red),
                           textAlign: TextAlign.center,
                         ),
@@ -211,17 +203,5 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
-  }
-
-  void _showMoreButton() {
-    setState(() {
-      _isLoadMoreButtonVisible = true;
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_showMoreButton);
-    super.dispose();
   }
 }
