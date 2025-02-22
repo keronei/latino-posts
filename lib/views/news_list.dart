@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
@@ -11,11 +12,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var isLoading = false;
   int _currentPage = 1;
-  bool _hasNextPage = true;
-  bool _isFirstLoadRunning = true;
-  bool _isLoadMoreRunning = true;
+  bool _hasNextPage = false;
+  bool _isFirstLoadRunning = false;
+  bool _isLoadMoreRunning = false;
   bool _isLoadMoreButtonVisible = false;
 
   List<NewsPost> _availablePosts = [];
@@ -38,15 +38,6 @@ class _HomePageState extends State<HomePage> {
           Container(
             padding: EdgeInsets.only(right: 10.0),
             child: IconButton(
-              icon: Icon(Icons.settings_input_antenna),
-              onPressed: () async {
-                await _loadFromApi(1);
-              },
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(right: 10.0),
-            child: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
                 await _deleteData();
@@ -56,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body:
-          isLoading
+          _isFirstLoadRunning
               ? Center(child: CircularProgressIndicator())
               : _buildNewsListView(),
     );
@@ -71,20 +62,17 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
+
     var apiProvider = NewsPostApiProvider();
 
     var posts = await apiProvider.getNextPage(page);
 
     if (posts.isEmpty) {
       // We've reached end of list
-      setState(() {
-        _hasNextPage = false;
-      });
+      _hasNextPage = false;
     } else {
-      setState(() {
-        _availablePosts.addAll(posts);
-        _currentPage += 1;
-      });
+      _currentPage += 1;
+      _hasNextPage = true;
     }
 
     setState(() {
@@ -98,13 +86,11 @@ class _HomePageState extends State<HomePage> {
 
   _deleteData() async {
     setState(() {
-      isLoading = true;
+      _isFirstLoadRunning = true;
     });
-
     await DBProvider.db.deleteAllNews();
-
     setState(() {
-      isLoading = false;
+      _isFirstLoadRunning = false;
     });
   }
 
@@ -116,7 +102,8 @@ class _HomePageState extends State<HomePage> {
           return Center(child: CircularProgressIndicator());
         } else {
           return RefreshIndicator(
-            onRefresh: () async => {_loadFromApi(1)},
+            onRefresh:
+                () async => {_currentPage = 1, _loadFromApi(_currentPage)},
             child: ListView.separated(
               separatorBuilder:
                   (context, index) => Divider(color: Colors.black12),
@@ -145,29 +132,57 @@ class _HomePageState extends State<HomePage> {
                     ],
                   );
                 }
-                if (index == snapshot.data.length) {
+                if (index == snapshot.data.length && _hasNextPage) {
+                  return Center(
+                    child: SizedBox(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width - 50,
+                      child:
+                          _isLoadMoreRunning
+                              ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircularProgressIndicator(),
+                                  Text("Getting more news..."),
+                                ],
+                              )
+                              : Padding(
+                                padding: EdgeInsets.only(bottom: 20),
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    shape: WidgetStateProperty.all<
+                                      RoundedRectangleBorder
+                                    >(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          6.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    _loadFromApi(_currentPage);
+                                  },
+                                  child: Text(
+                                    "Load More",
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ),
+                              ),
+                    ),
+                  );
+                } else if (index == snapshot.data.length && !_hasNextPage) {
                   return Center(
                     child: SizedBox(
                       height: 60,
                       width: MediaQuery.of(context).size.width - 50,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6.0),
-                                  ),
-                                ),
-                          ),
-                          onPressed: () {
-                            _loadFromApi(_currentPage);
-                          },
-                          child: Text(
-                            "Load More",
-                            style: TextStyle(fontSize: 20.0),
-                          ),
+                        child: Text(
+                          "You've reached the end, no more news.",
+                          style: TextStyle(fontSize: 16.0, color: Colors.red),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
