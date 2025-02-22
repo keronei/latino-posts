@@ -1,6 +1,8 @@
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:latin_news/utils/constants.dart';
+import 'package:latin_news/views/post_details.dart';
 import '../utils/shared_functions.dart';
 
 class HomePage extends StatefulWidget {
@@ -194,6 +196,13 @@ class HomePageState extends State<HomePage> {
                     "${index + 1}",
                     style: TextStyle(fontSize: 20.0),
                   ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      detailsDestination,
+                      arguments: snapshot.data[index],
+                    );
+                  },
                   title: Text(snapshot.data[index].title),
                   subtitle: Text(snapshot.data[index].body),
                 );
