@@ -35,6 +35,19 @@ Future<bool?> showConfirmationDialog(BuildContext context) {
   );
 }
 
+extension StringExtension on String {
+  String capitalizeFirstLetter() {
+    if (isEmpty) return this;
+    return this[0].toUpperCase() + substring(1);
+  }
+
+  String capitalizeSentences() {
+    return split(' ').map((sentence) {
+      return sentence.isNotEmpty ? sentence[0].toUpperCase() + sentence.substring(1) : sentence;
+    }).join(' ');
+  }
+}
+
 
 String getErrorMessage(Exception error) {
   if (error is TimeoutException) {

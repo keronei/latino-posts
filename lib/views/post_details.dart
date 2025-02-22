@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:latin_news/models/news_post.dart';
+import 'package:latin_news/utils/shared_functions.dart';
 import 'package:latin_news/views/post_details_divider.dart';
 
 import '../models/details_content.dart';
@@ -29,7 +30,7 @@ class PostDetailsScreen extends StatelessWidget {
               title: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  selectedPost.title,
+                  selectedPost.title.capitalizeSentences(),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
@@ -45,7 +46,7 @@ class PostDetailsScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                selectedPost.body,
+                selectedPost.body.capitalizeFirstLetter(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
               ),
             ),
@@ -59,7 +60,7 @@ class PostDetailsScreen extends StatelessWidget {
                 return SizedBox.shrink();
               } else {
                 return ListTile(
-                  title: Text(otherPosts[index].title),
+                  title: Text(otherPosts[index].title.capitalizeFirstLetter()),
                   onTap: () {
                     Navigator.pushReplacementNamed(
                       context,

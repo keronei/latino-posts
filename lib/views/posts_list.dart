@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:latin_news/models/details_content.dart';
+import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:latin_news/utils/constants.dart';
-import '../utils/shared_functions.dart';
+import '../utils/shared_functions.dart' ;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -117,9 +118,7 @@ class HomePageState extends State<HomePage> {
                   _currentPage = 1,
                   _loadFromApi(_currentPage, true),
                 },
-            child: ListView.separated(
-              separatorBuilder:
-                  (context, index) => Divider(color: Colors.black12),
+            child: ListView.builder(
               itemCount: snapshot.data.length + 1,
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
@@ -201,26 +200,51 @@ class HomePageState extends State<HomePage> {
                   );
                 }
 
-                return ListTile(
-                  leading: Text(
-                    "${index + 1}",
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  onTap: () {
-                    if (kDebugMode) {
-                      print("Pushing with ${snapshot.data.length} posts");
-                    }
-                    Navigator.pushNamed(
-                      context,
-                      detailsDestination,
-                      arguments: DetailsContent(
-                        snapshot.data,
-                        snapshot.data[index].id,
+                final pointedPost = snapshot.data[index] as NewsPost;
+
+                return Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Card(
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    pointedPost.title.capitalizeSentences(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                    softWrap: true,
+                                  ),
+                                ),
+                                Chip(label: Text("# ${index + 1}"),),
+                              ],
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(pointedPost.body.capitalizeFirstLetter()),
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                  title: Text(snapshot.data[index].title),
-                  subtitle: Text(snapshot.data[index].body),
+                      onTap: () {
+                        if (kDebugMode) {
+                          print("${snapshot.data[index].title}");
+                        }
+                        Navigator.pushNamed(
+                          context,
+                          detailsDestination,
+                          arguments: DetailsContent(
+                            snapshot.data,
+                            pointedPost.id,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 );
               },
             ),
