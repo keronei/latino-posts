@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:latin_news/models/details_content.dart';
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadFromApi(_currentPage);
+    _loadFromApi(_currentPage, false);
   }
 
   @override
@@ -48,7 +50,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  _loadFromApi(int page) async {
+  _loadFromApi(int page, bool isRefresh) async {
     setState(() {
       if (page == 1) {
         _isFirstLoadRunning = true;
@@ -59,7 +61,7 @@ class HomePageState extends State<HomePage> {
 
     var apiProvider = NewsPostApiProvider();
 
-    var postsData = await apiProvider.getNextPage(page);
+    var postsData = await apiProvider.getNextPage(page, isRefresh);
 
     if (postsData.newsPostsCount == 0) {
       if (postsData.responseMessage == null) {
@@ -105,7 +107,10 @@ class HomePageState extends State<HomePage> {
         } else {
           return RefreshIndicator(
             onRefresh:
-                () async => {_currentPage = 1, _loadFromApi(_currentPage)},
+                () async => {
+                  _currentPage = 1,
+                  _loadFromApi(_currentPage, true),
+                },
             child: ListView.separated(
               separatorBuilder:
                   (context, index) => Divider(color: Colors.black12),
@@ -163,7 +168,7 @@ class HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    _loadFromApi(_currentPage);
+                                    _loadFromApi(_currentPage, false);
                                   },
                                   child: Text(
                                     "Load More",
@@ -196,10 +201,16 @@ class HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 20.0),
                   ),
                   onTap: () {
+                    if (kDebugMode) {
+                      print("Pushing with ${snapshot.data.length} posts");
+                    }
                     Navigator.pushNamed(
                       context,
                       detailsDestination,
-                      arguments: snapshot.data[index],
+                      arguments: DetailsContent(
+                        snapshot.data,
+                        snapshot.data[index].id,
+                      ),
                     );
                   },
                   title: Text(snapshot.data[index].title),

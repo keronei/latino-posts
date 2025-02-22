@@ -1,29 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:latin_news/models/news_post.dart';
+import 'package:latin_news/views/post_details_divider.dart';
+
+import '../models/details_content.dart';
+import '../utils/constants.dart';
 
 class PostDetailsScreen extends StatelessWidget {
-  final NewsPost post;
+  final NewsPost selectedPost;
+  final List<NewsPost> otherPosts;
 
-  const PostDetailsScreen({super.key, required this.post});
+  const PostDetailsScreen({
+    super.key,
+    required this.selectedPost,
+    required this.otherPosts,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Post Details")),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.4,
-            child: Text(post.title),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200.0,
+            floating: true,
+            pinned: false,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  selectedPost.title,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              background: Container(color: Colors.amberAccent),
+            ),
           ),
-          const SizedBox(height: 16),
-          Text(
-            post.title,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                selectedPost.body,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+              ),
+            ),
           ),
-          const SizedBox(height: 16),
-          Text(post.body, style: const TextStyle(fontSize: 16)),
+
+          SliverPersistentHeader(pinned: false, delegate: SearchBoxDelegate()),
+
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              if (otherPosts[index].id == selectedPost.id) {
+                return SizedBox.shrink();
+              } else {
+                return ListTile(
+                  title: Text(otherPosts[index].title),
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      detailsDestination,
+                      arguments: DetailsContent(
+                        otherPosts,
+                        otherPosts[index].id,
+                      ),
+                    );
+                  },
+                );
+              }
+            }, childCount: otherPosts.length),
+          ),
         ],
       ),
     );
