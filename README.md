@@ -7,9 +7,17 @@ A simple project to showcase REST API with Offline Functionality
 ## Getting Started
 
 Ensure your flutter environment is setup (use the official guide [here](https://docs.flutter.dev/get-started/install/macos/mobile-android)), then clone this project:
+```agsl
+git clone https://github.com/keronei/latino-posts.git
+```
+Next, navigate into the project directory and get the required packages:
 
-Open with your favourite editor, let it sync to completion. 
-Alternatively, you can grab this APK and run in on your Android device.
+```agsl
+flutter pub get
+```
+
+Alternatively, open the project using your favourite editor, let it sync to completion. 
+If you feel lucky, you can grab <this APK> and run in on your Android device directly.
 
 ## Tests
 Before making any changes on the app, it is recommended to run the unit tests first and find out if there's any unexpected behaviours.
