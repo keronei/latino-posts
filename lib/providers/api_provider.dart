@@ -11,9 +11,15 @@ import '../models/response_data.dart';
 import '../utils/shared_functions.dart';
 
 class NewsPostApiProvider {
+
+  final http.Client httpClient;
+  final DBProvider dbProvider;
+
+  NewsPostApiProvider({required this.httpClient, required this.dbProvider });
+
   Future<ResponseData> getNextPage(int nextPage, bool isRefresh) async {
     try {
-      final response = await http.get(
+      final response = await httpClient.get(
         Uri.parse("$baseApiEndpoint?_page=$nextPage&_limit=$apiPageSize"),
       );
 
@@ -26,11 +32,11 @@ class NewsPostApiProvider {
 
       if (posts.isNotEmpty && isRefresh) {
         // this is refresh, only clear when you have data.
-        await DBProvider.db.deleteAllPosts();
+        await dbProvider.deleteAllPosts();
       }
 
       for (var poster in parsedPosts) {
-        DBProvider.db.createNews(poster);
+        dbProvider.createNews(poster);
       }
 
       return ResponseData(newsPostsCount: parsedPosts.length);

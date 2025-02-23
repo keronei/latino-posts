@@ -5,6 +5,7 @@ import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:latin_news/utils/constants.dart';
+import 'package:provider/provider.dart';
 import '../utils/shared_functions.dart';
 
 class HomePage extends StatefulWidget {
@@ -58,6 +59,8 @@ class HomePageState extends State<HomePage> {
   }
 
   _loadFromApi(int page, bool isRefresh) async {
+    var apiProvider = Provider.of<NewsPostApiProvider>(context, listen: false);
+
     setState(() {
       if (page == 1) {
         _isFirstLoadRunning = true;
@@ -65,8 +68,6 @@ class HomePageState extends State<HomePage> {
         _isLoadMoreRunning = true;
       }
     });
-
-    var apiProvider = NewsPostApiProvider();
 
     var postsData = await apiProvider.getNextPage(page, isRefresh);
 
