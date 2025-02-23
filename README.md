@@ -7,22 +7,23 @@ A simple project to showcase REST API with Offline Functionality
 ## Getting Started
 
 Ensure your flutter environment is setup (use the official guide [here](https://docs.flutter.dev/get-started/install/macos/mobile-android)), then clone this project:
-```agsl
+```bash
 git clone https://github.com/keronei/latino-posts.git
 ```
-Next, navigate into the project directory and get the required packages:
+Next, navigate into the project directory using `cd latino-posts` and get the required packages:
 
-```agsl
+```bash
 flutter pub get
 ```
 
 Alternatively, open the project using your favourite editor, let it sync to completion. 
+
 If you feel lucky, you can grab <this APK> and run in on your Android device directly.
 
 ## Tests
 Before making any changes on the app, it is recommended to run the unit tests first and find out if there's any unexpected behaviours.
 
-Use this command to execute the unit tests targetting the data & network handling:
+Use this command to execute the unit tests targeting the data & network handling:
 
 ```bash
 
@@ -30,7 +31,7 @@ flutter test
 
 ```
 
-Or to run specific test groups:
+Or to run specific test groups e.g:
 
 ```bash
 flutter test --plain-name "getNextPage Tests" test/api/news_post_api_provider_test.dart
