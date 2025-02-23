@@ -22,7 +22,18 @@ flutter test
 
 ```
 
+Or to run specific test groups:
+
+```bash
+flutter test --plain-name "getNextPage Tests" test/api/news_post_api_provider_test.dart
+
+```
+
 ## The Architecture
+Below is a simplified representation of the data layer, the local db(provided by sqflite) is
+preferred to be the single source of truth to ensure consistency.
+
+<img src="files/data-layer-design.png" alt="Simple representation of data layer" width="501" height="379">
 
 ## About the API
 This app uses fake API from [JSON Placeholder](https://jsonplaceholder.typicode.com), the documentation can be found at [JSON Placeholder guide](https://jsonplaceholder.typicode.com/guide).
@@ -55,12 +66,12 @@ The response will be a JSON as below
 
 ## Dependencies et all
 
-| Package                                                 | Purpose                                                   |       
-|---------------------------------------------------------|-----------------------------------------------------------|
-| [http](https://pub.dev/packages/http)                   | For taking care of http requests                          |        
-| [path_provider](https://pub.dev/packages/path_provider) | Handle locations on the system - specifically for db file |
-| [path](https://pub.dev/packages/path)                   | Enables manipulating various paths                        |
-| [sqflite](https://pub.dev/packages/sqflite)             | For storing the posts on device.                          |
-| [test](https://pub.dev/packages/test)                   | Assist in verifying behaviour an unit level               |
-| [provider](https://pub.dev/packages/provider)| To "inject" class instances instead of re-initiation
-| [Mocktail](https://pub.dev/packages/mocktail)| Create mocks with less boilerplate and faster writing of tests
+| Package                                                  | Purpose                                                   |       
+|----------------------------------------------------------|-----------------------------------------------------------|
+| [http](https://pub.dev/packages/http)                    | For taking care of http requests                          |        
+| [path_provider](https://pub.dev/packages/path_provider)  | Handle locations on the system - specifically for db file |
+| [path](https://pub.dev/packages/path)                    | Enables manipulating various paths                        |
+| [sqflite](https://pub.dev/packages/sqflite)              | For storing the posts on device.                          |
+| [test](https://pub.dev/packages/test)                    | Assist in verifying behaviour an unit level               |
+| [provider](https://pub.dev/packages/provider)            | To "inject" class instances instead of re-initiation      |
+| [Mocktail](https://pub.dev/packages/mocktail)            | Create mocks with less boilerplate and faster writing of tests |
