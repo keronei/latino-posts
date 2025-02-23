@@ -11,6 +11,17 @@ Ensure your flutter environment is setup (use the official guide [here](https://
 Open with your favourite editor, let it sync to completion. 
 Alternatively, you can grab this APK and run in on your Android device.
 
+## Tests
+Before making any changes on the app, it is recommended to run the unit tests first and find out if there's any unexpected behaviours.
+
+Use this command to execute the unit tests targetting the data & network handling:
+
+```bash
+
+flutter test 
+
+```
+
 ## The Architecture
 
 ## About the API
