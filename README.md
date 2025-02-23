@@ -40,6 +40,7 @@ The response will be a JSON as below
 ## What can be improved
 - When a network error occurs, trigger last failed request when connection is established.
 - Implement sqflite versioning to allow migration in the future. 
+- Add UI tests to verify UI behaviour under various interactions
 
 ## Dependencies et all
 
@@ -49,3 +50,6 @@ The response will be a JSON as below
 | [path_provider](https://pub.dev/packages/path_provider) | Handle locations on the system - specifically for db file |
 | [path](https://pub.dev/packages/path)                   | Enables manipulating various paths                        |
 | [sqflite](https://pub.dev/packages/sqflite)             | For storing the posts on device.                          |
+| [test](https://pub.dev/packages/test)                   | Assist in verifying behaviour an unit level               |
+| [provider](https://pub.dev/packages/provider)| To "inject" class instances instead of re-initiation
+| [Mocktail](https://pub.dev/packages/mocktail)| Create mocks with less boilerplate and faster writing of tests
