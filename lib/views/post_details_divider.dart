@@ -9,8 +9,21 @@ class SearchBoxDelegate extends SliverPersistentHeaderDelegate {
   ) {
     return Column(
       children: [
-        Text("Other posts"),
-        Divider(height: 1, thickness: 1),
+        Text(
+          "Other posts",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            fontWeight: FontWeight.bold,
+            fontSize: 18
+          ),
+        ),
+        Divider(
+          height: 1,
+          thickness: 1,
+          indent: 8.0,
+          endIndent: 8.0,
+          color: Theme.of(context).colorScheme.secondaryContainer,
+        ),
       ],
     );
   }

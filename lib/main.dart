@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:latin_news/utils/constants.dart';
 import 'package:latin_news/views/posts_list.dart';
 import 'package:latin_news/views/post_details.dart';
+import 'package:latin_news/views/theme/app_theme.dart';
 
 import 'models/details_content.dart';
 
@@ -15,6 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: appTheme,
+      themeMode: ThemeMode.system,
       initialRoute: homeDestination,
       onGenerateRoute: (settings) {
         if (settings.name == detailsDestination) {

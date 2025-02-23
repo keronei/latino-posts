@@ -5,7 +5,7 @@ import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:latin_news/utils/constants.dart';
-import '../utils/shared_functions.dart' ;
+import '../utils/shared_functions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -192,7 +192,10 @@ class HomePageState extends State<HomePage> {
                         padding: EdgeInsets.only(bottom: 20),
                         child: Text(
                           "You've reached the end, no more posts.",
-                          style: TextStyle(fontSize: 16.0, color: Colors.red),
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -222,7 +225,24 @@ class HomePageState extends State<HomePage> {
                                     softWrap: true,
                                   ),
                                 ),
-                                Chip(label: Text("# ${index + 1}"),),
+                                Chip(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  label: Text(
+                                    "# ${pointedPost.id}",
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      Theme.of(
+                                        context,
+                                      ).colorScheme.secondaryContainer,
+                                ),
                               ],
                             ),
                             SizedBox(height: 8.0),

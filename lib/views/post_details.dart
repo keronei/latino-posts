@@ -23,6 +23,7 @@ class PostDetailsScreen extends StatelessWidget {
         slivers: [
           SliverAppBar(
             expandedHeight: 200.0,
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             floating: true,
             pinned: false,
             flexibleSpace: FlexibleSpaceBar(
@@ -32,13 +33,12 @@ class PostDetailsScreen extends StatelessWidget {
                 child: Text(
                   selectedPost.title.capitalizeSentences(),
                   style: TextStyle(
-                    color: Colors.black,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
               ),
-              background: Container(color: Colors.amberAccent),
             ),
           ),
 
@@ -60,6 +60,20 @@ class PostDetailsScreen extends StatelessWidget {
                 return SizedBox.shrink();
               } else {
                 return ListTile(
+                  leading: Chip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+
+                    label: Text(
+                      "# ${otherPosts[index].id}",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                  ),
                   title: Text(otherPosts[index].title.capitalizeFirstLetter()),
                   onTap: () {
                     Navigator.pushReplacementNamed(
