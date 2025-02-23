@@ -145,6 +145,7 @@ class HomePageState extends State<HomePage> {
                   );
                 }
                 if (index == snapshot.data.length && _hasNextPage) {
+                  final _allData = snapshot.data.length;
                   return Center(
                     child: SizedBox(
                       height: 60,
@@ -174,7 +175,13 @@ class HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    _loadFromApi(_currentPage, false);
+                                    _loadFromApi(
+                                      _currentPage > (_allData / apiPageSize)
+                                          ? _currentPage
+                                          : (_allData / apiPageSize).toInt() +
+                                              1,
+                                      false,
+                                    );
                                   },
                                   child: Text(
                                     "Load More",
