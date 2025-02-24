@@ -38,6 +38,13 @@ flutter test --plain-name "getNextPage Tests" test/api/news_post_api_provider_te
 
 ```
 
+In order to run integration tests, you will **need** a device, it also takes a few seconds before launching so be patient.
+
+```bash
+flutter test integration_test/
+
+```
+
 ## The Architecture
 Below is a simplified representation of the data layer, the local db(provided by sqflite) is
 preferred to be the single source of truth to ensure consistency.
