@@ -11,10 +11,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('First Screen test', () {
-
-    testWidgets('Verify that the first screen can be pulled to refresh', (
-        tester,
-        ) async {
+    testWidgets('Verify that the first screen loads & lists posts', (
+      tester,
+    ) async {
       // Load app widget.
       await tester.pumpWidget(
         MultiProvider(
@@ -22,10 +21,11 @@ void main() {
             Provider<http.Client>(create: (_) => http.Client()),
             Provider<DBProvider>(create: (_) => DBProvider.db),
             ProxyProvider2<http.Client, DBProvider, NewsPostApiProvider>(
-              update: (_, httpClient, dbProvider, __) => NewsPostApiProvider(
-                httpClient: httpClient,
-                dbProvider: dbProvider,
-              ),
+              update:
+                  (_, httpClient, dbProvider, __) => NewsPostApiProvider(
+                    httpClient: httpClient,
+                    dbProvider: dbProvider,
+                  ),
             ),
           ],
           child: MyApp(),
@@ -39,8 +39,8 @@ void main() {
   });
 
   testWidgets('Verify that load more will fetch to the 20th item', (
-      tester,
-      ) async {
+    tester,
+  ) async {
     // Load app widget.
     await tester.pumpWidget(
       MultiProvider(
@@ -48,10 +48,11 @@ void main() {
           Provider<http.Client>(create: (_) => http.Client()),
           Provider<DBProvider>(create: (_) => DBProvider.db),
           ProxyProvider2<http.Client, DBProvider, NewsPostApiProvider>(
-            update: (_, httpClient, dbProvider, __) => NewsPostApiProvider(
-              httpClient: httpClient,
-              dbProvider: dbProvider,
-            ),
+            update:
+                (_, httpClient, dbProvider, __) => NewsPostApiProvider(
+                  httpClient: httpClient,
+                  dbProvider: dbProvider,
+                ),
           ),
         ],
         child: MyApp(),
@@ -60,12 +61,11 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    // Find the scrollable list (make sure it has a Key)
     final listFinder = find.byType(Scrollable);
 
     await tester.scrollUntilVisible(
-      find.text("Load More"), // Target widget
-      500.0, // Scroll step size
+      find.text("Load More"),
+      500.0,
       scrollable: listFinder,
     );
 
@@ -77,12 +77,11 @@ void main() {
     await tester.pump(Duration(seconds: 4));
 
     await tester.scrollUntilVisible(
-      find.text("Load More"), // Target widget
-      500.0, // Scroll step size
+      find.text("Load More"),
+      500.0,
       scrollable: listFinder,
     );
 
     expect(find.text("# 20"), findsOneWidget);
   });
-
 }
