@@ -7,7 +7,7 @@ Here are some screens to expect.
 
 <img src="files/page-one.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/end-of-list.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/details-page.jpg" width="250" height="530"/>
 
-<img src="files/load-more-button.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/empty-starting-page.mp4" width="250" height="530"/>
+<img src="files/load-more-button.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/from-start.gif" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/more-details.gif" width="250" height="530"/>
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ If using Android Studio:
 2. Once complete, it will ask if to trust project, Go ahead and Trust its execution.
 3. No special keys/dependencies, let it sync, then connect a device and run.
 
-If you feel lucky, you can grab [debug apk]() and run in on your Android device directly(might not be up-to-date).
+If you feel lucky, you can grab [release_apk](files/latino-release.apk) and run in on your Android device directly (might not be up-to-date).
 
 If using some other editor, you can clone th project from your Terminal/Shell
 
