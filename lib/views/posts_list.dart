@@ -163,6 +163,7 @@ class HomePageState extends State<HomePage> {
                               : Padding(
                                 padding: EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
+                                  key: const Key('load_more'),
                                   style: ButtonStyle(
                                     shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder

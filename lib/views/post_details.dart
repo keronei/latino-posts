@@ -31,6 +31,7 @@ class PostDetailsScreen extends StatelessWidget {
               title: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
+                  key: const Key("header_title"),
                   selectedPost.title.capitalizeSentences(),
                   style: TextStyle(
                     fontSize: 16.0,
