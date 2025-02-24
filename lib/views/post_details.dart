@@ -71,6 +71,7 @@ class PostDetailsScreen extends StatelessWidget {
                       arguments: DetailsContent(
                         otherPosts,
                         otherPosts[index].id,
+                        true
                       ),
                     );
                   },

@@ -288,7 +288,7 @@ class HomePageState extends State<HomePage>
             Navigator.pushNamed(
               context,
               detailsDestination,
-              arguments: DetailsContent(snapshot.data, pointedPost.id),
+              arguments: DetailsContent(snapshot.data, pointedPost.id, false),
             );
           },
         ),
