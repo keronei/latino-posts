@@ -247,7 +247,7 @@ class HomePageState extends State<HomePage>
   Center terminalPostNote(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 60,
+        height: 70,
         width: MediaQuery.of(context).size.width - 50,
         child: Padding(
           padding: EdgeInsets.only(bottom: 20),
