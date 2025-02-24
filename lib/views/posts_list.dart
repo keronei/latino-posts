@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:latin_news/models/details_content.dart';
 import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/providers/db_provider.dart';
 import 'package:latin_news/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:latin_news/utils/constants.dart';
+import 'package:latin_news/views/widgets/post_id_chip.dart';
 import 'package:provider/provider.dart';
 import '../utils/shared_functions.dart';
 
@@ -127,160 +127,150 @@ class HomePageState extends State<HomePage> {
                 if (index == snapshot.data.length && index == 0) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height - 100,
-                        width: MediaQuery.of(context).size.width - 50,
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: Center(
-                            child: Text(
-                              "Looks like there's no posts, pull to refresh.",
-                              style: TextStyle(fontSize: 20.0),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    children: [emptyPostsWidget(context)],
                   );
                 }
                 if (index == snapshot.data.length && _hasNextPage) {
-                  final _allData = snapshot.data.length;
-                  return Center(
-                    child: SizedBox(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width - 50,
-                      child:
-                          _isLoadMoreRunning
-                              ? Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CircularProgressIndicator(),
-                                  Text("Getting more posts..."),
-                                ],
-                              )
-                              : Padding(
-                                padding: EdgeInsets.only(bottom: 20),
-                                child: ElevatedButton(
-                                  key: const Key('load_more'),
-                                  style: ButtonStyle(
-                                    shape: WidgetStateProperty.all<
-                                      RoundedRectangleBorder
-                                    >(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          6.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    _loadFromApi(
-                                      _currentPage > (_allData / apiPageSize)
-                                          ? _currentPage
-                                          : (_allData / apiPageSize).toInt() +
-                                              1,
-                                      false,
-                                    );
-                                  },
-                                  child: Text(
-                                    "Load More",
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                ),
-                              ),
-                    ),
-                  );
+                  final allData = snapshot.data.length;
+                  return morePostsLoader(context, allData);
                 } else if (index == snapshot.data.length && !_hasNextPage) {
-                  return Center(
-                    child: SizedBox(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width - 50,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          "You've reached the end, no more posts.",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  );
+                  return terminalPostNote(context);
                 }
 
                 final pointedPost = snapshot.data[index] as NewsPost;
 
-                return Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Card(
-                    child: GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    pointedPost.title.capitalizeSentences(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
-                                    softWrap: true,
-                                  ),
-                                ),
-                                Chip(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                  label: Text(
-                                    "# ${pointedPost.id}",
-                                    style: TextStyle(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary,
-                                    ),
-                                  ),
-                                  backgroundColor:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.secondaryContainer,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(pointedPost.body.capitalizeFirstLetter()),
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        if (kDebugMode) {
-                          print("${snapshot.data[index].title}");
-                        }
-                        Navigator.pushNamed(
-                          context,
-                          detailsDestination,
-                          arguments: DetailsContent(
-                            snapshot.data,
-                            pointedPost.id,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
+                return postItemWidget(pointedPost, context, snapshot, index);
               },
             ),
           );
         }
       },
+    );
+  }
+
+  SizedBox emptyPostsWidget(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 100,
+      width: MediaQuery.of(context).size.width - 50,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 20),
+        child: Center(
+          child: Text(
+            "Looks like there's no posts, pull to refresh.",
+            style: TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Center morePostsLoader(BuildContext context, allData) {
+    return Center(
+      child: SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width - 50,
+        child:
+            _isLoadMoreRunning
+                ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text("Getting more posts..."),
+                  ],
+                )
+                : loadMoreButton(allData),
+      ),
+    );
+  }
+
+  Padding loadMoreButton(allData) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20),
+      child: ElevatedButton(
+        key: const Key('load_more'),
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+          ),
+        ),
+        onPressed: () {
+          _loadFromApi(
+            _currentPage > (allData / apiPageSize)
+                ? _currentPage
+                : (allData / apiPageSize).toInt() + 1,
+            false,
+          );
+        },
+        child: Text("Load More", style: TextStyle(fontSize: 20.0)),
+      ),
+    );
+  }
+
+  Center terminalPostNote(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width - 50,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 20),
+          child: Text(
+            "You've reached the end, no more posts.",
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding postItemWidget(
+    NewsPost pointedPost,
+    BuildContext context,
+    AsyncSnapshot<dynamic> snapshot,
+    int index,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Card(
+        child: GestureDetector(
+          child: Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                postHeaderRow(pointedPost, context),
+                SizedBox(height: 8.0),
+                Text(pointedPost.body.capitalizeFirstLetter()),
+              ],
+            ),
+          ),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              detailsDestination,
+              arguments: DetailsContent(snapshot.data, pointedPost.id),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Row postHeaderRow(NewsPost pointedPost, BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            pointedPost.title.capitalizeSentences(),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            softWrap: true,
+          ),
+        ),
+        postIdentifierChip(pointedPost.id, context),
+      ],
     );
   }
 }
