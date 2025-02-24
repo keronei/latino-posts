@@ -3,10 +3,32 @@
 A simple project to showcase REST API with Offline Functionality
 
 ## Screenshots
+Here are some screens to expect.
+
+<img src="files/page-one.jpg" width="250" height="470"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/end-of-list.jpg" width="250" height="470"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/details-page.jpg" width="250" height="470"/>
+
+<img src="files/load-more-button.jpg" width="250" height="470"/> &nbsp;&nbsp;&nbsp;&nbsp; <video width="600" controls autoplay>
+  <source src="files/empty-starting-page.mp4" type="video/mp4">
+  Your browser may not support the video.
+</video>
 
 ## Getting Started
 
 Ensure your flutter environment is setup (use the official guide [here](https://docs.flutter.dev/get-started/install/macos/mobile-android)), then clone this project:
+
+If using Android Studio:
+
+1. Clone the repo from your IDE
+    1. `File` -> `New` -> `Project From Version Control`
+    2. Input `git@github.com:keronei/latino-posts.git` if you have set up `SSH`
+       or `https://github.com/keronei/latino-posts.git` if you prefer https (not recommended).
+2. Once complete, it will ask if to trust project, Go ahead and Trust its execution.
+3. No special keys/dependencies, let it sync, then connect a device and run.
+
+If you feel lucky, you can grab [debug apk]() and run in on your Android device directly(might not be up-to-date).
+
+If using some other editor, you can clone th project from your Terminal/Shell
+
 ```bash
 git clone https://github.com/keronei/latino-posts.git
 ```
@@ -16,9 +38,7 @@ Next, navigate into the project directory using `cd latino-posts` and get the re
 flutter pub get
 ```
 
-Alternatively, open the project using your favourite editor, let it sync to completion. 
-
-If you feel lucky, you can grab <this APK> and run in on your Android device directly.
+Alternatively, open the project using your favourite editor, let it sync to completion.
 
 ## Tests
 Before making any changes on the app, it is recommended to run the unit tests first and find out if there's any unexpected behaviours.
