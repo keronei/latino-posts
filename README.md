@@ -5,9 +5,9 @@ A simple project to showcase REST API with Offline Functionality
 ## Screenshots
 Here are some screens to expect.
 
-<img src="files/page-one.jpg" width="250" height="600"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/end-of-list.jpg" width="250" height="600"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/details-page.jpg" width="250" height="600"/>
+<img src="files/page-one.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/end-of-list.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/details-page.jpg" width="250" height="530"/>
 
-<img src="files/load-more-button.jpg" width="250" height="600"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/empty-starting-page.mp4" width="250" height="600"/>
+<img src="files/load-more-button.jpg" width="250" height="530"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/empty-starting-page.mp4" width="250" height="530"/>
 
 ## Getting Started
 
