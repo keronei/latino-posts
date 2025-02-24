@@ -15,16 +15,29 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   int _currentPage = 1;
   bool _hasNextPage = false;
   bool _isFirstLoadRunning = false;
   bool _isLoadMoreRunning = false;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     _loadFromApi(_currentPage, false);
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1), // Animation duration
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(
+      begin: 0,
+      end: 100,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -106,6 +119,12 @@ class HomePageState extends State<HomePage> {
     });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   _buildNewsListView() {
     return FutureBuilder(
       future: DBProvider.db.getAllNewsPosts(),
@@ -154,12 +173,30 @@ class HomePageState extends State<HomePage> {
       width: MediaQuery.of(context).size.width - 50,
       child: Padding(
         padding: EdgeInsets.only(bottom: 20),
-        child: Center(
-          child: Text(
-            "Looks like there's no posts, pull to refresh.",
-            style: TextStyle(fontSize: 20.0),
-            textAlign: TextAlign.center,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Looks like there's no posts, pull to refresh.",
+              style: TextStyle(fontSize: 20.0),
+              textAlign: TextAlign.center,
+            ),
+
+            SizedBox(height: 16),
+
+            AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0, _animation.value), // Moves downwards
+                  child: RotatedBox(
+                    quarterTurns: 1,
+                    child: Icon(Icons.double_arrow_sharp),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
