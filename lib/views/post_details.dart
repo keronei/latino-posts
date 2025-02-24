@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:latin_news/models/news_post.dart';
 import 'package:latin_news/utils/shared_functions.dart';
 import 'package:latin_news/views/post_details_divider.dart';
+import 'package:latin_news/views/widgets/post_id_chip.dart';
 
 import '../models/details_content.dart';
 import '../utils/constants.dart';
@@ -61,20 +62,7 @@ class PostDetailsScreen extends StatelessWidget {
                 return SizedBox.shrink();
               } else {
                 return ListTile(
-                  leading: Chip(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-
-                    label: Text(
-                      "# ${otherPosts[index].id}",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ),
-                    backgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
-                  ),
+                  leading: postIdentifierChip(otherPosts[index].id, context),
                   title: Text(otherPosts[index].title.capitalizeFirstLetter()),
                   onTap: () {
                     Navigator.pushReplacementNamed(
