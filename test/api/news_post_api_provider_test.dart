@@ -75,7 +75,7 @@ void main() {
       expect(result.responseMessage, contains("Something went wrong. Please try again."));
     });
 
-    test('should clear DB when isRefresh is true and data exists', () async {
+    test('should clear DB when isRefresh is true and data exists on payload', () async {
       final mockResponse = jsonEncode([
         {"id": 1, "title": "Test Post", "userId": 1, "body": "Content here"},
       ]);
