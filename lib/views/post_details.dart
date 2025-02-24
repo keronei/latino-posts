@@ -28,10 +28,10 @@ class PostDetailsScreen extends StatelessWidget {
             pinned: false,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
+              key: const Key("header_title"),
               title: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  key: const Key("header_title"),
                   selectedPost.title.capitalizeSentences(),
                   style: TextStyle(
                     fontSize: 16.0,
