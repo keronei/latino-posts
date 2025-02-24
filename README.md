@@ -5,12 +5,9 @@ A simple project to showcase REST API with Offline Functionality
 ## Screenshots
 Here are some screens to expect.
 
-<img src="files/page-one.jpg" width="250" height="470"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/end-of-list.jpg" width="250" height="470"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/details-page.jpg" width="250" height="470"/>
+<img src="files/page-one.jpg" width="250" height="600"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/end-of-list.jpg" width="250" height="600"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/details-page.jpg" width="250" height="600"/>
 
-<img src="files/load-more-button.jpg" width="250" height="470"/> &nbsp;&nbsp;&nbsp;&nbsp; <video width="600" controls autoplay>
-  <source src="files/empty-starting-page.mp4" type="video/mp4">
-  Your browser may not support the video.
-</video>
+<img src="files/load-more-button.jpg" width="250" height="600"/> &nbsp;&nbsp;&nbsp;&nbsp; <img src="files/empty-starting-page.mp4" width="250" height="600"/>
 
 ## Getting Started
 
@@ -38,7 +35,7 @@ Next, navigate into the project directory using `cd latino-posts` and get the re
 flutter pub get
 ```
 
-Alternatively, open the project using your favourite editor, let it sync to completion.
+From here, open the project using your favourite editor, let it sync to completion; of course remember to hit **Run** ▶️.
 
 ## Tests
 Before making any changes on the app, it is recommended to run the unit tests first and find out if there's any unexpected behaviours.
@@ -98,7 +95,6 @@ The response will be a JSON as below
 ## What can be improved
 - When a network error occurs, trigger last failed request when connection is established.
 - Implement sqflite versioning to allow migration in the future. 
-- Add UI tests to verify UI behaviour under various interactions
 
 ## Dependencies et all
 
