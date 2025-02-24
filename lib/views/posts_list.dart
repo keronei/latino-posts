@@ -120,6 +120,7 @@ class HomePageState extends State<HomePage> {
                   _loadFromApi(_currentPage, true),
                 },
             child: ListView.builder(
+              key: const Key('posts_lister'),
               itemCount: snapshot.data.length + 1,
               physics: const AlwaysScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
